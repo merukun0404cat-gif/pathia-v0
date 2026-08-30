@@ -1,0 +1,3 @@
+meeting_id,meeting_date,committee,department,path_name,topic,comment_type,speaker_role,comment,decision,decision_type,status,knowledge_register
+CP202609,2026-09-10,クリニカルパス委員会,外科,肝切除術パス,術後薬剤の見直し,責任医師意見,外科パス責任医師,B薬剤は抗体保有例が多いためA薬剤を継続したい,A薬剤を標準として継続,正式決定,反映待ち,する
+CP202609,2026-09-10,クリニカルパス委員会,外科,胃切除術パス,Day3採血,委員意見,委員,全例実施ではなく合併症疑い時のみでよい,必要時実施へ変更,正式決定,反映待ち,する

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#eaf6ff" />
+  <title>Pathia v0 | 院内クリニカルパス統合・分析支援AIシステム</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="loginView" class="login-shell">
+    <div class="login-card">
+      <div class="login-art">
+        <img src="assets/pathia-bear.png" alt="Pathia専用キャラクター パシくま" />
+      </div>
+      <div class="login-form-area">
+        <div class="login-logo-row">
+          <img class="hospital-logo" src="assets/kobe-medical-center-logo.png" alt="神戸医療センターロゴ" />
+          <span class="demo-badge">VERSION 0</span>
+        </div>
+        <h1>Pathia <small>パシア</small></h1>
+        <p class="lead">院内クリニカルパス 統合・分析支援AIシステム</p>
+        <div class="notice warning">試作版です。実患者ID・実メールアドレス・院内機密は入力しないでください。</div>
+        <label>役割ID
+          <select id="loginId">
+            <option value="ward5">5階病棟パス係（ward5）</option>
+            <option value="ward6">6階病棟パス係（ward6）</option>
+            <option value="office">事務局管理者（office）</option>
+            <option value="surgery">外科パス責任者（surgery）</option>
+            <option value="committee">委員会構成員（committee）</option>
+            <option value="viewer">閲覧者（viewer）</option>
+          </select>
+        </label>
+        <label>パスワード
+          <input id="loginPassword" type="password" value="pathia0" autocomplete="off" />
+        </label>
+        <button id="loginBtn" class="btn primary wide">ログイン</button>
+        <p class="muted small">デモ用パスワード：<code>pathia0</code></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="appView" class="app-shell hidden">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">P</div>
+        <div><strong>Pathia</strong><span>パシア</span></div>
+      </div>
+      <div id="userMini" class="user-mini"></div>
+      <nav id="nav"></nav>
+      <div class="sidebar-bottom">
+        <button class="nav-link" data-route="help"><span>📘</span>使い方</button>
+        <button class="nav-link" id="logoutBtn"><span>↪</span>ログアウト</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div id="pageEyebrow" class="eyebrow">Pathia</div>
+          <h2 id="pageTitle">ホーム</h2>
+        </div>
+        <div class="top-actions">
+          <button id="notificationBtn" class="icon-btn" title="通知">🔔<span id="notificationCount" class="count-dot hidden">0</span></button>
+          <button id="profileBtn" class="profile-chip"></button>
+        </div>
+      </header>
+      <section id="content" class="content"></section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <div id="modalRoot"></div>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
