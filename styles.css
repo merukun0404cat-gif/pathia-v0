@@ -35,3 +35,13 @@ label{display:block;font-weight:700;margin:16px 0 8px}input,select,textarea{widt
 
 /* VERSION 0.2 */
 .money{font-size:22px!important;line-height:1.25}.finance-bar{margin:14px 0}.finance-label{display:flex;justify-content:space-between;gap:12px;font-size:12px;margin-bottom:6px}.finance-label span{max-width:70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.finance-label b{color:#285f8e}.finance-bar .bar{height:12px;background:#edf3f7;border-radius:999px;overflow:hidden}.finance-bar .bar i{display:block;height:100%;background:linear-gradient(90deg,#74b8e7,#89cca4);border-radius:999px}.complete-panel{text-align:center;padding:8px}.complete-panel h3{font-size:24px}.complete-icon{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:#e1f6e8;color:#2c7c4e;font-size:38px;font-weight:900}.modal textarea{min-height:120px}
+
+/* v0.2.2: monthly path master picker */
+.picker-list{max-height:52vh;overflow:auto;border:1px solid #dbe8f1;border-radius:14px;padding:8px;background:#fbfdff}
+.picker-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #edf3f7;cursor:pointer;margin:0}
+.picker-row:last-child{border-bottom:0}.picker-row:hover{background:#f2f9fd}.picker-row input{width:auto;margin:0}.picker-row span:nth-child(2){display:flex;flex-direction:column;flex:1}.picker-row small{color:#718497;margin-top:2px}
+
+
+/* v0.2.3 master management + schedule editing */
+.master-inactive{background:#f7f8fa;color:#8a97a5}.master-inactive strong{color:#7a8794}.master-inactive td{opacity:.82}
+.legend{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.event:hover{filter:brightness(.97);box-shadow:0 1px 4px rgba(30,70,100,.14)}
