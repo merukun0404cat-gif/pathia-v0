@@ -36,12 +36,67 @@
   };
   const VARIANCE_TYPES = ['入院期間延長','予定より早期退院','検査変更','薬剤変更','処置変更','手術・治療変更','患者要因','合併症','その他'];
   const EVENT_TYPES = {meeting:'会議',training:'研修',conference:'学会',deadline:'集計締切',other:'その他'};
+  const ANALYSIS_PERIODS = {
+    '2026-05': {
+      label:'令和8年5月',
+      wards:{
+        '3東':{used:34,discharged:80,rate:43,prev:54},'3南':{used:2,discharged:28,rate:7,prev:22},'ICU':{used:3,discharged:3,rate:100,prev:0},
+        '4階':{used:52,discharged:104,rate:50,prev:50},'4東':{used:30,discharged:65,rate:46,prev:52},'5東':{used:8,discharged:79,rate:10,prev:8},
+        '5西':{used:16,discharged:81,rate:20,prev:35},'5南':{used:16,discharged:62,rate:26,prev:28},'病棟全体':{used:161,discharged:502,rate:32,prev:39},
+        '手術':{used:126,discharged:null,rate:null,prev:null},'外来':{used:21,discharged:null,rate:null,prev:null},'全体':{used:308,discharged:502,rate:61,prev:64}
+      },
+      depts:{
+        '内科':{used:1,discharged:40,rate:3,prev:11},'呼吸器内科':{used:10,discharged:33,rate:30,prev:20},'消化器内科':{used:4,discharged:83,rate:5,prev:0},
+        '循環器内科':{used:21,discharged:38,rate:55,prev:46},'糖尿病内科':{used:3,discharged:6,rate:50,prev:null},'小児科':{used:9,discharged:35,rate:26,prev:20},
+        '外科':{used:58,discharged:52,rate:112,prev:89},'乳腺外科':{used:0,discharged:2,rate:0,prev:0},'整形外科':{used:65,discharged:107,rate:61,prev:72},
+        '形成外科':{used:0,discharged:11,rate:0,prev:null},'脳神経外科':{used:0,discharged:11,rate:0,prev:0},'皮膚科':{used:14,discharged:5,rate:280,prev:50},
+        '泌尿器科':{used:4,discharged:4,rate:100,prev:68},'産科':{used:11,discharged:17,rate:65,prev:79},'婦人科':{used:53,discharged:30,rate:177,prev:160},
+        '眼科':{used:51,discharged:27,rate:189,prev:280},'耳鼻いんこう科':{used:1,discharged:1,rate:100,prev:null},'リハビリ':{used:0,discharged:0,rate:null,prev:null},
+        '放射線科':{used:3,discharged:0,rate:null,prev:null},'全体':{used:308,discharged:502,rate:61,prev:64}
+      }
+    },
+    '2026-05-cum': {
+      label:'令和8年度累計（5月迄）',
+      wards:{
+        '3東':{used:79,discharged:164,rate:48,prev:54},'3南':{used:7,discharged:61,rate:11,prev:20},'ICU':{used:9,discharged:5,rate:180,prev:0},
+        '4階':{used:122,discharged:228,rate:54,prev:56},'4東':{used:56,discharged:127,rate:44,prev:53},'5東':{used:17,discharged:162,rate:10,prev:6},
+        '5西':{used:38,discharged:152,rate:25,prev:36},'5南':{used:46,discharged:141,rate:33,prev:31},'病棟全体':{used:374,discharged:1040,rate:36,prev:40},
+        '手術':{used:226,discharged:null,rate:null,prev:null},'外来':{used:43,discharged:null,rate:null,prev:null},'全体':{used:643,discharged:1040,rate:61,prev:64}
+      },
+      depts:{
+        '内科':{used:2,discharged:80,rate:3,prev:6},'呼吸器内科':{used:13,discharged:62,rate:21,prev:23},'消化器内科':{used:11,discharged:174,rate:6,prev:1},
+        '循環器内科':{used:55,discharged:99,rate:56,prev:51},'糖尿病内科':{used:6,discharged:9,rate:67,prev:null},'小児科':{used:25,discharged:78,rate:32,prev:15},
+        '外科':{used:115,discharged:101,rate:114,prev:85},'乳腺外科':{used:0,discharged:5,rate:0,prev:0},'整形外科':{used:118,discharged:205,rate:58,prev:74},
+        '形成外科':{used:0,discharged:23,rate:0,prev:0},'脳神経外科':{used:2,discharged:24,rate:8,prev:17},'皮膚科':{used:27,discharged:9,rate:300,prev:56},
+        '泌尿器科':{used:17,discharged:14,rate:121,prev:78},'産科':{used:26,discharged:35,rate:74,prev:88},'婦人科':{used:115,discharged:68,rate:169,prev:166},
+        '眼科':{used:104,discharged:51,rate:204,prev:262},'耳鼻いんこう科':{used:2,discharged:3,rate:67,prev:null},'リハビリ':{used:0,discharged:0,rate:null,prev:null},
+        '放射線科':{used:5,discharged:0,rate:null,prev:null},'全体':{used:643,discharged:1040,rate:61,prev:64}
+      }
+    }
+  };
+  const MONTHLY_TRENDS = {r8:{'4月':62,'5月':61},r7:{'4月':63,'5月':63,'6月':55,'7月':54,'8月':51,'9月':51,'10月':58,'11月':52,'12月':40,'1月':54,'2月':64,'3月':65}};
+  const VARIANCE_RECORDS = [
+    {no:'CP000838',dept:'外科',path:'腹腔鏡下虫垂切除術（2022/02/01）',ward:'3東',month:'5月',day:'1日目',code:'A-1-a',content:'ドレーン留置のため'},
+    {no:'CP000979',dept:'産科',path:'○120正常分娩',ward:'4階',month:'5月',day:'5日目',code:'A-3',content:'児が搬送になり1日早く退院'},
+    {no:'CP000979',dept:'産科',path:'○120正常分娩',ward:'4階',month:'5月',day:'6日目',code:'A-3',content:'児の体重増加待ちで1日退院延期'},
+    {no:'CP000882',dept:'産婦人科',path:'○TC療法2泊3日',ward:'4階',month:'5月',day:'3日目',code:'A-1-a',content:'CARTのため退院延期'},
+    {no:'CP001029',dept:'整形外科',path:'【R5】頚椎手術',ward:'4東',month:'5月',day:'13日目',code:'A-2-C',content:'早期退院'},
+    {no:'CP001029',dept:'整形外科',path:'【R5】頚椎手術',ward:'4東',month:'5月',day:'18日目',code:'C1',content:'転院調整'},
+    {no:'CP001038',dept:'整形外科',path:'【R5】腰椎手術',ward:'4東',month:'5月',day:'6日目',code:'A-1-a',content:'硬膜損傷'},
+    {no:'CP001038',dept:'整形外科',path:'【R5】腰椎手術',ward:'4東',month:'5月',day:'9日目',code:'A-1-a',content:'リオペ'},
+    {no:'CP001038',dept:'整形外科',path:'【R5】腰椎手術',ward:'4東',month:'5月',day:'18日目',code:'C-1',content:'転院調整'},
+    {no:'CP000865',dept:'皮膚科',path:'115帯状疱疹',ward:'5西',month:'5月',day:'8日目',code:'A-1-a',content:'治療継続のため'},
+    {no:'CP001108',dept:'循環器内科',path:'経皮的冠動脈インターベンション（PCI3泊4日）★2025年改訂版',ward:'ICU・CCU',month:'5月',day:'2日目',code:'A-1-a',content:'IABP挿入、治療継続のため'},
+    {no:'CP001122',dept:'循環器内科',path:'★AMI急性心臓リハビリテーションプログラム（10.13日間コース）',ward:'ICU・CCU',month:'5月',day:'18日目',code:'A-1-a',content:'退院日が予定より遅延　原疾患治療継続'},
+    {no:'CP001124',dept:'産科',path:'予定帝王切開術（GBS陰性破水なし）',ward:'4階',month:'5月',day:'8日目',code:'A-3',content:'児の体重増加待ちで退院延期'},
+    {no:'CP001127',dept:'産科',path:'緊急帝王切開術（GBS陰性破水なし）',ward:'4階',month:'5月',day:'8日目',code:'A-3',content:'児の体重増加待ちで退院延期'}
+  ];
 
   const MENU = [
     ['home','🏠','ホーム',['office','ward','doctor','committee','viewer']],
     ['monthly','📝','月次実績登録',['office','ward']],
     ['officeMonthly','📋','月次実績管理',['office']],
-    ['analysis','📊','パス分析',['office','doctor','committee','viewer']],
+    ['analysis','📊','分析',['office','ward','doctor','committee','viewer']],
     ['paths','📚','院内パス',['office','doctor','committee','viewer']],
     ['ai','✨','AI改善提案',['office','doctor','committee']],
     ['knowledge','🧠','院内知識',['office','doctor','committee']],
@@ -63,7 +118,7 @@
     store.set('members', members);
     store.set('publishedMonth','2026-07');
     store.set('notifications',[
-      {id:uid('n'),title:'Pathia v0へようこそ',body:'この版は試作です。実患者情報は入力しないでください。',at:new Date().toISOString(),read:false}
+      {id:uid('n'),title:'Pathia v0.1へようこそ',body:'この版は試作です。実患者情報は入力しないでください。',at:new Date().toISOString(),read:false}
     ]);
     store.set('events',[
       {id:'e1',title:'クリニカルパス委員会',date:'2026-09-10',start:'15:00',end:'16:00',type:'meeting',place:'大会議室',notify:'committee',agenda:'外科パス分析結果／前回決定事項の進捗／新規検討事項',status:'予定'},
@@ -118,7 +173,7 @@
   }
   function navigate(r){
     route=r; $$('.nav-link').forEach(b=>b.classList.toggle('active',b.dataset.route===r));
-    const m=MENU.find(x=>x[0]===r); $('#pageTitle').textContent=m?m[2]:(r==='help'?'使い方':'Pathia'); $('#pageEyebrow').textContent='Pathia v0';
+    const m=MENU.find(x=>x[0]===r); $('#pageTitle').textContent=m?m[2]:(r==='help'?'使い方':'Pathia'); $('#pageEyebrow').textContent='Pathia v0.1';
     const renderers={home:renderHome,monthly:renderMonthly,officeMonthly:renderOfficeMonthly,analysis:renderAnalysis,paths:renderPaths,ai:renderAI,knowledge:renderKnowledge,committee:renderCommittee,schedule:renderSchedule,reports:renderReports,import:renderImport,admin:renderAdmin,help:renderHelp};
     (renderers[r]||renderHome)(); window.scrollTo({top:0,behavior:'smooth'});
   }
@@ -272,13 +327,55 @@
   function publishMonthly(month){ const s=countStatuses(month); if(s.confirmed<WARDS.length){modal(`<h3>まだ公開できません</h3><div class="notice danger">未確定部署が ${WARDS.length-s.confirmed} 部署あります。</div><p>全ての部署が確定してから月次更新してください。</p>`,[{label:'閉じる',cls:'primary',fn:closeModal}]);return} store.set('publishedMonth',month); notify(`${month}実績を公開しました`,'院内ダッシュボード・分析画面へ反映されました。','all'); toast('月次更新が完了しました。'); renderOfficeMonthly(); }
 
   function renderAnalysis(){
+    const saved=store.get('analysisFilters',{period:'2026-05',ward:'全体',dept:'全体',path:'全体'});
+    const period=ANALYSIS_PERIODS[saved.period]||ANALYSIS_PERIODS['2026-05'];
+    const wards=['全体',...Object.keys(period.wards).filter(x=>x!=='全体')];
+    const depts=['全体',...Object.keys(period.depts).filter(x=>x!=='全体')];
+    const paths=['全体',...new Set(VARIANCE_RECORDS.map(x=>x.path))];
+    const filteredVariances=VARIANCE_RECORDS.filter(v=>(saved.ward==='全体'||v.ward===saved.ward|| (saved.ward==='ICU'&&v.ward==='ICU・CCU')) && (saved.dept==='全体'||v.dept===saved.dept) && (saved.path==='全体'||v.path===saved.path));
+    let stat=period.depts[saved.dept]||period.wards[saved.ward]||period.wards['全体'];
+    if(saved.dept==='全体' && saved.ward!=='全体') stat=period.wards[saved.ward]||period.wards['全体'];
+    if(saved.dept!=='全体') stat=period.depts[saved.dept]||period.depts['全体'];
+    const fmt=v=>v===null||v===undefined?'―':v.toLocaleString('ja-JP');
+    const rate=v=>v===null||v===undefined?'―':`${v}%`;
+    const delta=(stat.rate!=null&&stat.prev!=null)?stat.rate-stat.prev:null;
+    const varianceByCode={}; filteredVariances.forEach(v=>varianceByCode[v.code]=(varianceByCode[v.code]||0)+1);
+    const varianceByContent={}; filteredVariances.forEach(v=>varianceByContent[v.content]=(varianceByContent[v.content]||0)+1);
+    const rowsByWard=Object.entries(period.wards).filter(([k])=>!['手術','外来','病棟全体'].includes(k));
+    const rowsByDept=Object.entries(period.depts);
     setContent(`
-      <div class="toolbar"><div><h3 style="margin:0">外科パス分析（試作）</h3><div class="muted small">外科責任医師との試行を想定したサンプルデータ</div></div><div class="right"><select><option>2026年8月</option></select><select><option>外科</option></select></div></div>
-      <div class="grid cards4"><div class="stat blue"><div class="label">外科パス適用件数</div><div class="value">55</div></div><div class="stat mint"><div class="label">平均適用率</div><div class="value">84.3<small>%</small></div></div><div class="stat cream"><div class="label">バリアンス</div><div class="value">6<small>件</small></div></div><div class="stat lav"><div class="label">AI見直し候補</div><div class="value">3</div></div></div>
-      <div class="grid cards2" style="margin-top:16px"><div class="card"><h3>パス別実績</h3><div class="table-wrap"><table><thead><tr><th>パス</th><th>件数</th><th>バリアンス</th><th>発生率</th></tr></thead><tbody><tr><td>肝切除術パス</td><td>15</td><td>3</td><td>20.0%</td></tr><tr><td>鼠径ヘルニアパス</td><td>10</td><td>0</td><td>0%</td></tr><tr><td>胃切除術パス</td><td>12</td><td>2</td><td>16.7%</td></tr><tr><td>胆嚢摘出術パス</td><td>18</td><td>1</td><td>5.6%</td></tr></tbody></table></div></div><div class="card"><h3>バリアンス種別</h3><div class="list"><div class="list-row"><span>入院期間延長</span><strong>2件</strong></div><div class="list-row"><span>患者要因</span><strong>1件</strong></div><div class="list-row"><span>薬剤変更</span><strong>1件</strong></div><div class="list-row"><span>合併症</span><strong>1件</strong></div><div class="list-row"><span>その他</span><strong>1件</strong></div></div></div></div>
-      <div class="section-title"><h3>AIが気づいた見直し候補</h3><button class="btn outline" onclick="Pathia.go('ai')">改善提案へ</button></div>
-      <div class="ai-box"><h4>肝切除術パス：術後薬剤</h4><p>コストのみを見るとB薬剤への変更余地がありますが、院内知識には「B薬剤は抗体保有例が多く、A薬剤を標準として継続」という外科責任医師の判断が登録されています。現時点ではA薬剤継続を優先する提案が妥当です。</p><span class="pill green">院内知識を参照</span></div>
+      <div class="notice success"><strong>共通分析画面</strong>：事務局・病棟パス係・責任医師・委員・閲覧者の全権限から参照できます。病棟・診療科・パスを自由に切り替えてください。</div>
+      <div class="card" style="margin-top:14px">
+        <div class="toolbar"><div><h3 style="margin:0">クリニカルパス分析</h3><div class="muted small">会議資料で使用している「使用率」「前年度比較」「バリアンス逸脱内容」をPathia上で確認する試作です。</div></div><span class="pill blue">VERSION 0.1</span></div>
+        <div class="analysis-filter-grid">
+          <label>集計期間<select id="anaPeriod">${Object.entries(ANALYSIS_PERIODS).map(([k,v])=>`<option value="${k}" ${saved.period===k?'selected':''}>${v.label}</option>`).join('')}</select></label>
+          <label>病棟<select id="anaWard">${wards.map(v=>`<option ${saved.ward===v?'selected':''}>${v}</option>`).join('')}</select></label>
+          <label>診療科<select id="anaDept">${depts.map(v=>`<option ${saved.dept===v?'selected':''}>${v}</option>`).join('')}</select></label>
+          <label>パス名<select id="anaPath">${paths.map(v=>`<option ${saved.path===v?'selected':''}>${esc(v)}</option>`).join('')}</select></label>
+        </div>
+      </div>
+      <div class="grid cards4" style="margin-top:16px">
+        <div class="stat blue"><div class="label">使用患者数</div><div class="value">${fmt(stat.used)}<small> 件</small></div></div>
+        <div class="stat mint"><div class="label">退院患者数</div><div class="value">${fmt(stat.discharged)}<small> 件</small></div></div>
+        <div class="stat cream"><div class="label">使用率</div><div class="value">${rate(stat.rate)}</div></div>
+        <div class="stat lav"><div class="label">前年度使用率</div><div class="value">${rate(stat.prev)}</div><div class="subtext">${delta===null?'比較不可':`前年差 ${delta>0?'+':''}${delta}pt`}</div></div>
+      </div>
+      <div class="grid cards2" style="margin-top:16px">
+        <div class="card"><div class="section-title" style="margin-top:0"><h3>病棟別 使用率</h3><span class="pill blue">${period.label}</span></div><div class="table-wrap compact"><table><thead><tr><th>病棟</th><th>使用患者数</th><th>退院患者数</th><th>使用率</th><th>前年度</th></tr></thead><tbody>${rowsByWard.map(([k,v])=>`<tr class="${saved.ward===k?'selected-row':''}"><td><strong>${k}</strong></td><td>${fmt(v.used)}</td><td>${fmt(v.discharged)}</td><td>${rate(v.rate)}</td><td>${rate(v.prev)}</td></tr>`).join('')}</tbody></table></div></div>
+        <div class="card"><div class="section-title" style="margin-top:0"><h3>診療科別 使用率</h3><span class="pill green">選択可</span></div><div class="table-wrap compact analysis-scroll"><table><thead><tr><th>診療科</th><th>使用患者数</th><th>退院患者数</th><th>使用率</th><th>前年度</th></tr></thead><tbody>${rowsByDept.map(([k,v])=>`<tr class="${saved.dept===k?'selected-row':''}"><td><strong>${k}</strong></td><td>${fmt(v.used)}</td><td>${fmt(v.discharged)}</td><td>${rate(v.rate)}</td><td>${rate(v.prev)}</td></tr>`).join('')}</tbody></table></div></div>
+      </div>
+      <div class="card" style="margin-top:16px"><div class="section-title" style="margin-top:0"><h3>月別使用率推移</h3><span class="muted small">令和8年度と前年度を比較</span></div><div class="trend-grid"><div><strong>令和8年度</strong>${Object.entries(MONTHLY_TRENDS.r8).map(([m,v])=>`<div class="trend-row"><span>${m}</span><div class="bar"><i style="width:${Math.min(100,v)}%"></i></div><b>${v}%</b></div>`).join('')}</div><div><strong>令和7年度</strong>${Object.entries(MONTHLY_TRENDS.r7).map(([m,v])=>`<div class="trend-row"><span>${m}</span><div class="bar"><i style="width:${Math.min(100,v)}%"></i></div><b>${v}%</b></div>`).join('')}</div></div></div>
+      <div class="section-title"><h3>バリアンス逸脱内容</h3><div><span class="pill yellow">${filteredVariances.length}件</span> <button class="btn sm outline" id="anaReset">絞り込み解除</button></div></div>
+      <div class="grid cards2">
+        <div class="card"><h3>コード別</h3><div class="list">${Object.entries(varianceByCode).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="list-row"><span>${esc(k)}</span><strong>${v}件</strong></div>`).join('')||'<p class="muted">該当なし</p>'}</div></div>
+        <div class="card"><h3>主な内容</h3><div class="list">${Object.entries(varianceByContent).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,v])=>`<div class="list-row"><span>${esc(k)}</span><strong>${v}件</strong></div>`).join('')||'<p class="muted">該当なし</p>'}</div></div>
+      </div>
+      <div class="table-wrap" style="margin-top:16px"><table><thead><tr><th>No</th><th>診療科</th><th>パス名</th><th>病棟</th><th>発生月</th><th>病日</th><th>コード</th><th>バリアンス内容</th></tr></thead><tbody>${filteredVariances.map(v=>`<tr><td>${esc(v.no)}</td><td>${esc(v.dept)}</td><td>${esc(v.path)}</td><td>${esc(v.ward)}</td><td>${esc(v.month)}</td><td>${esc(v.day)}</td><td><span class="pill yellow">${esc(v.code)}</span></td><td>${esc(v.content)}</td></tr>`).join('')||'<tr><td colspan="8" class="muted">条件に一致するバリアンスはありません。</td></tr>'}</tbody></table></div>
+      <div class="notice warning" style="margin-top:16px"><strong>V0.1の追加項目：</strong> 使用患者数、退院患者数、使用率、前年度使用率、前年差、年度累計、月別推移、病棟別・診療科別比較、パス別絞り込み、バリアンスコード・内容一覧。今後は平均在院日数、適用率、診療行為、コスト、改訂前後比較などを追加できる構造にします。</div>
     `);
+    const update=()=>{store.set('analysisFilters',{period:$('#anaPeriod').value,ward:$('#anaWard').value,dept:$('#anaDept').value,path:$('#anaPath').value});renderAnalysis()};
+    ['anaPeriod','anaWard','anaDept','anaPath'].forEach(id=>$('#'+id).onchange=update);
+    $('#anaReset').onclick=()=>{store.set('analysisFilters',{period:'2026-05',ward:'全体',dept:'全体',path:'全体'});renderAnalysis()};
   }
 
   function renderPaths(){
@@ -362,7 +459,7 @@
   function saveMember(){const members=store.get('members',[]),id=$('#mId').value.trim();if(!id){toast('役割IDを入力してください。');return}const role=$('#mRole').value;const obj={id,name:$('#mName').value,department:$('#mDept').value,title:$('#mTitle').value,label:$('#mLabel').value||id,role,permission:({office:'管理者',ward:'病棟パス係',doctor:'パス責任者',committee:'委員会構成員',viewer:'閲覧のみ'})[role],ward:$('#mWard').value,email:$('#mEmail').value,active:true};const i=members.findIndex(x=>x.id===id);if(i>=0)members[i]={...members[i],...obj};else members.push(obj);store.set('members',members);if(currentUser.id===id){currentUser={...currentUser,...obj};renderUser()}closeModal();renderAdmin();toast('保存しました。');}
 
   function renderHelp(){
-    const roleGuides={office:[['📋','月次実績管理','未入力・入力途中・確定済を確認し、月次更新します。','officeMonthly'],['🏥','委員会資料の見方','会議資料・議事録・決定事項を確認します。','committee'],['📥','議事録の登録','Excelから出力したCSVを取り込みます。','committee'],['⚙️','委員・権限管理','役割ID、担当者名、部署、メール、権限を管理します。','admin']],ward:[['📝','月次実績の登録','実施件数、バリアンス、架空患者IDを入力し確定します。','monthly'],['📅','スケジュールの確認','会議・研修・締切を確認します。','schedule'],['📊','集計結果の見方','公開後の院内ダッシュボードを確認します。','home']],doctor:[['✨','AI改善提案への回答','医師判断と理由を院内知識として残します。','ai'],['🧠','院内知識の見方','過去の責任医師判断や委員会決定を確認します。','knowledge'],['🏥','委員会資料の見方','分析から会議資料まで確認します。','committee']],committee:[['🏥','委員会資料の見方','レジュメ・会議資料・議事録を確認します。','committee'],['🧠','決定事項の確認','会議で決まった内容を追跡します。','knowledge'],['📅','スケジュールの登録方法','会議・研修などを登録します。','schedule']],viewer:[['📊','院内ダッシュボード','公開済みパス実績を確認します。','home'],['📚','院内パスを見る','院内パスの情報を参照します。','paths']]}; const gs=roleGuides[currentUser.role]||[];
+    const roleGuides={office:[['📋','月次実績管理','未入力・入力途中・確定済を確認し、月次更新します。','officeMonthly'],['📊','分析結果を見る','病棟・診療科・パス別に使用率とバリアンスを確認します。','analysis'],['🏥','委員会資料の見方','会議資料・議事録・決定事項を確認します。','committee'],['📥','議事録の登録','Excelから出力したCSVを取り込みます。','committee'],['⚙️','委員・権限管理','役割ID、担当者名、部署、メール、権限を管理します。','admin']],ward:[['📝','月次実績の登録','実施件数、バリアンス、架空患者IDを入力し確定します。','monthly'],['📊','分析結果を見る','病棟・診療科・パス別に使用率とバリアンスを確認します。','analysis'],['📅','スケジュールの確認','会議・研修・締切を確認します。','schedule'],['📊','集計結果の見方','公開後の院内ダッシュボードを確認します。','home']],doctor:[['✨','AI改善提案への回答','医師判断と理由を院内知識として残します。','ai'],['🧠','院内知識の見方','過去の責任医師判断や委員会決定を確認します。','knowledge'],['🏥','委員会資料の見方','分析から会議資料まで確認します。','committee']],committee:[['🏥','委員会資料の見方','レジュメ・会議資料・議事録を確認します。','committee'],['🧠','決定事項の確認','会議で決まった内容を追跡します。','knowledge'],['📅','スケジュールの登録方法','会議・研修などを登録します。','schedule']],viewer:[['📊','院内ダッシュボード','公開済みパス実績を確認します。','home'],['📚','院内パスを見る','院内パスの情報を参照します。','paths']]}; const gs=roleGuides[currentUser.role]||[];
     const terms=[['クリニカルパス','特定の疾患・手術について、入院から退院までの検査・治療・看護・リハビリ等を時系列で整理した標準的な診療計画です。'],['バリアンス','パスで予定していた経過と実際の経過に差が生じたことです。差の理由を分析し、パス改善につなげます。'],['アウトカム','その時点で患者さんが到達していることを期待する目標です。'],['パス適用件数','そのパスを実際に使用した症例数です。'],['パス適用率','対象となる症例のうちパスを使用した割合です。'],['確定','病棟の月次入力を完了し、事務局の月次集計へ連携する操作です。'],['院内知識','責任医師の判断、委員会決定、改訂理由など、今後のAI提案が参照する病院内の知見です。'],['月次更新','事務局が確定済み実績を正式な当月結果として公開する作業です。']];
     setContent(`<div class="help-hero"><img src="pathia-character-sheet.png" alt="パシくま キャラクターシート"><div><span class="pill blue">${esc(currentUser.label)}向け</span><h3 style="font-size:26px;color:#245b89">パシくまと使い方を見てみよう</h3><p>権限によって必要な操作だけを優先表示します。各ガイドをクリックすると、その操作画面へ移動できます。</p><div class="notice success">わからない言葉があったら、下の「用語説明」を見てね。各画面にも「？」ヘルプを追加していく想定です。</div><div class="guide-grid" style="margin-top:14px">${gs.map(g=>`<div class="guide-card" onclick="Pathia.go('${g[3]}')"><div class="gicon">${g[0]}</div><strong>${g[1]}</strong><span class="muted small">${g[2]}</span></div>`).join('')}</div></div></div><div class="section-title"><h3>はじめてのクリニカルパス</h3></div><div class="card"><h3>クリニカルパスって何？</h3><p>入院から退院までの標準的な診療の道筋を、医師・看護師・薬剤師・リハビリ・事務など多職種で共有するための計画です。Pathiaでは「今のパスが実際の診療と合っているか」「どんなバリアンスが起きているか」「なぜ改訂されたか」を見えるようにします。</p></div><div class="section-title"><h3>用語説明</h3></div><div class="glossary">${terms.map(t=>`<div class="term"><strong>${t[0]}</strong><p>${t[1]}</p></div>`).join('')}</div><div class="section-title"><h3>よくある質問</h3></div><div class="card"><div class="list"><div class="list-row"><div><div class="maintext">0件なのに空白でいい？</div><div class="subtext">空白は「未入力」、0は「0件と確認済み」です。0件の場合も0を入力してください。</div></div></div><div class="list-row"><div><div class="maintext">確定後に間違いに気づいたら？</div><div class="subtext">本番版では事務局へ修正依頼し、確定解除後に修正する運用を想定しています。</div></div></div><div class="list-row"><div><div class="maintext">正式パスをPathiaで修正できる？</div><div class="subtext">できません。正式パスの新規作成・修正は別端末で行い、Pathiaは分析・提案・履歴管理を担当します。</div></div></div></div></div>`);
   }
@@ -376,7 +473,7 @@
   }
   function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
 
-  function reportWindow(title,body){const w=window.open('','_blank'); w.document.write(`<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>${esc(title)}</title><style>body{font-family:Yu Gothic,Meiryo,sans-serif;color:#26394b;margin:36px}h1{color:#245c8b;border-bottom:3px solid #72b9e8;padding-bottom:12px}h2{color:#2e6b9a;margin-top:28px}.meta{background:#f1f8fd;padding:12px;border-radius:10px}.box{border:1px solid #d7e6f1;border-radius:12px;padding:14px;margin:12px 0}table{width:100%;border-collapse:collapse}th,td{border:1px solid #d8e4ed;padding:8px;text-align:left}th{background:#eef6fb}.ai{background:#effaf4;border-left:5px solid #78bd92;padding:12px}.foot{margin-top:32px;font-size:11px;color:#778797}@media print{button{display:none}body{margin:18mm}}</style></head><body><button onclick="window.print()" style="float:right;padding:9px 14px">PDFに保存／印刷</button><h1>${esc(title)}</h1>${body}<div class="foot">Pathia v0 試作資料｜生成日 ${new Date().toLocaleDateString('ja-JP')}｜正式資料として使用する前に内容を確認してください。</div></body></html>`); w.document.close(); }
+  function reportWindow(title,body){const w=window.open('','_blank'); w.document.write(`<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>${esc(title)}</title><style>body{font-family:Yu Gothic,Meiryo,sans-serif;color:#26394b;margin:36px}h1{color:#245c8b;border-bottom:3px solid #72b9e8;padding-bottom:12px}h2{color:#2e6b9a;margin-top:28px}.meta{background:#f1f8fd;padding:12px;border-radius:10px}.box{border:1px solid #d7e6f1;border-radius:12px;padding:14px;margin:12px 0}table{width:100%;border-collapse:collapse}th,td{border:1px solid #d8e4ed;padding:8px;text-align:left}th{background:#eef6fb}.ai{background:#effaf4;border-left:5px solid #78bd92;padding:12px}.foot{margin-top:32px;font-size:11px;color:#778797}@media print{button{display:none}body{margin:18mm}}</style></head><body><button onclick="window.print()" style="float:right;padding:9px 14px">PDFに保存／印刷</button><h1>${esc(title)}</h1>${body}<div class="foot">Pathia v0.1 試作資料｜生成日 ${new Date().toLocaleDateString('ja-JP')}｜正式資料として使用する前に内容を確認してください。</div></body></html>`); w.document.close(); }
   function printCommittee(id){const m=store.get('committeeMeetings',[]).find(x=>x.id===id)||{title:'クリニカルパス委員会',date:'2026-09-10',agenda:'外科パス分析'};reportWindow(`${m.title} 資料`,`<div class="meta">日時：${fmtDate(m.date)}<br>対象：外科試作版<br>議題：${esc(m.agenda)}</div><h2>1. 外科パス運用状況</h2><table><tr><th>パス</th><th>件数</th><th>バリアンス</th><th>発生率</th></tr><tr><td>肝切除術パス</td><td>15</td><td>3</td><td>20.0%</td></tr><tr><td>鼠径ヘルニアパス</td><td>10</td><td>0</td><td>0%</td></tr><tr><td>胃切除術パス</td><td>12</td><td>2</td><td>16.7%</td></tr></table><h2>2. AI見直し候補</h2><div class="ai"><strong>肝切除術パス／術後薬剤</strong><p>データ上はB薬剤への変更余地がありますが、過去の外科責任医師判断として、抗体保有例の観点からA薬剤を標準として継続する院内知識が登録されています。PathiaはA薬剤継続を優先提案します。</p></div><h2>3. 前回決定事項</h2><table><tr><th>項目</th><th>決定</th><th>進捗</th></tr><tr><td>術後薬剤</td><td>A薬剤継続</td><td>院内知識登録済</td></tr><tr><td>Day3採血</td><td>必要時へ</td><td>正式パス反映待ち</td></tr></table><h2>4. 今回の検討事項</h2><div class="box">□ 肝切除術パスのバリアンス3件の確認<br>□ 胃切除術パスのDay3採血改訂状況<br>□ 新規パス候補の症例数確認</div>`)}
   function printGenericAgenda(e){reportWindow(`${e.title} レジュメ`,`<div class="meta">日時：${fmtDate(e.date)} ${esc(e.start||'終日')}〜${esc(e.end||'')}<br>場所：${esc(e.place||'未設定')}</div><h2>議題</h2><div class="box">${esc(e.agenda||'議題未登録').replace(/\n/g,'<br>')}</div><h2>前回決定事項</h2><div class="box">1. A薬剤を標準として継続<br>2. Day3採血を必要時へ変更<br>3. 新規パス候補の症例数を次回確認</div>`)}
   function printAgenda(id){const m=store.get('committeeMeetings',[]).find(x=>x.id===id);if(!m)return;printGenericAgenda({title:m.title,date:m.date,start:'15:00',end:'16:00',place:'大会議室',agenda:m.agenda})}

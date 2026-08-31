@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#eaf6ff" />
-  <title>Pathia v0 | 院内クリニカルパス統合・分析支援AIシステム</title>
+  <title>Pathia v0.1 | 院内クリニカルパス統合・分析支援AIシステム</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -16,16 +16,16 @@
       <div class="login-form-area">
         <div class="login-logo-row">
           <img class="hospital-logo" src="kobe-medical-center-logo.png" alt="神戸医療センターロゴ" />
-          <span class="demo-badge">VERSION 0</span>
+          <span class="demo-badge">VERSION 0.1</span>
         </div>
         <h1>Pathia <small>パシア</small></h1>
         <p class="lead">院内クリニカルパス 統合・分析支援AIシステム</p>
         <div class="notice warning">試作版です。実患者ID・実メールアドレス・院内機密は入力しないでください。</div>
         <label>役割ID
           <select id="loginId">
+            <option value="office" selected>事務局管理者（office）</option>
             <option value="ward5">5階病棟パス係（ward5）</option>
             <option value="ward6">6階病棟パス係（ward6）</option>
-            <option value="office">事務局管理者（office）</option>
             <option value="surgery">外科パス責任者（surgery）</option>
             <option value="committee">委員会構成員（committee）</option>
             <option value="viewer">閲覧者（viewer）</option>
