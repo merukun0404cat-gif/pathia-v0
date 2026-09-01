@@ -41,7 +41,6 @@ label{display:block;font-weight:700;margin:16px 0 8px}input,select,textarea{widt
 .picker-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #edf3f7;cursor:pointer;margin:0}
 .picker-row:last-child{border-bottom:0}.picker-row:hover{background:#f2f9fd}.picker-row input{width:auto;margin:0}.picker-row span:nth-child(2){display:flex;flex-direction:column;flex:1}.picker-row small{color:#718497;margin-top:2px}
 
-
-/* v0.2.3 master management + schedule editing */
-.master-inactive{background:#f7f8fa;color:#8a97a5}.master-inactive strong{color:#7a8794}.master-inactive td{opacity:.82}
-.legend{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.event:hover{filter:brightness(.97);box-shadow:0 1px 4px rgba(30,70,100,.14)}
+/* VERSION 0.3 DPC / laboratory review */
+.workflow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.workflow .step{display:flex;align-items:center;gap:8px;background:#f7fbfe;border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:12px;font-weight:800;color:#325d7e}.workflow .step b{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#dff1fb;color:#226396}.workflow .arrow{color:#87a6bb;font-weight:900}.card .table-wrap{margin-top:12px}
+@media(max-width:760px){.workflow{align-items:stretch}.workflow .step{width:100%}.workflow .arrow{display:none}}
